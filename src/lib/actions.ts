@@ -7,7 +7,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-type City = {
+export type City = {
   name: string;
   country: string;
   description: string;
@@ -46,10 +46,10 @@ export const generateDestinations = async (_: GenerateState | null, formData: Fo
   if(!response?.choices?.[0]?.message?.content) {
     return null;
   }
-  const cities = JSON.parse(response.choices[0].message.content) as City[];
+  const result = JSON.parse(response.choices[0].message.content) as {cities: City[]};
 
   return {
-    cities,
+    cities: result.cities,
     days,
     budget,
     from,
