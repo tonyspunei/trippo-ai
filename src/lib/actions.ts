@@ -12,6 +12,7 @@ export type City = {
   country: string;
   description: string;
   reasons: string[];
+  image?: string;
 };
 
 export type GenerateState = {
@@ -48,6 +49,11 @@ export const generateDestinations = async (_: GenerateState | null, formData: Fo
   }
   const result = JSON.parse(response.choices[0].message.content) as {cities: City[]};
 
+  for (const city of result.cities) {
+    const imageUrl = await fetchCityImage(city.name);
+    city.image = imageUrl;
+  }
+
   return {
     cities: result.cities,
     days,
@@ -55,4 +61,18 @@ export const generateDestinations = async (_: GenerateState | null, formData: Fo
     from,
     details
   };
+};
+
+const PEXELS_URL = "https://api.pexels.com/v1/search";
+
+async function fetchCityImage(query: string) {
+  const url = `${PEXELS_URL}?query=${query}&per_page=1`;
+
+  const result = await fetch(url, {
+    headers: {
+      Authorization: process.env.PEXELS_API_KEY!!
+    }
+  });
+  const json = await result.json();
+  return json.photos[0].src.large as string;
 };

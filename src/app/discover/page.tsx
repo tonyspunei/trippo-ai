@@ -29,7 +29,7 @@ export default function Discover() {
           <div className="flex flex-col space-y-2 max-w-lg mt-8">
             <label className="block text-sm font-medium leading-6 text-gray-900" htmlFor="details">Trip details</label>
             <small>In a sentence or two, describe what kind of trip you are looking for.</small>
-            <textarea id="details" name="details" rows={4} placeholder="e.g. I want to go on a relaxing party trip with my best friends. Somewhere that has a great party scene and night life." required className="block mt-2 w-full ring-1 ring-inset ring-gray-300 rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm">
+            <textarea id="details" name="details" rows={4} placeholder="e.g. I want to go on a relaxing party trip with my best friends. Somewhere that has a great party scene and nightlife." required className="block mt-2 w-full ring-1 ring-inset ring-gray-300 rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm">
             </textarea>
           </div>
           <button className="bg-blue-600 text-white hover:bg-blue-500 rounded-xl px-4 py-2 mt-8">Submit</button>
