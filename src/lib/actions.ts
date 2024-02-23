@@ -1,16 +1,58 @@
 "use server";
 
-export const generateDestinations = async (_: string[] | null, formData: FormData) => {
-  const days = formData.get("days");
-  const budget = formData.get("budget");
-  const from = formData.get("from");
-  const details = formData.get("details");
+import OpenAI from "openai";
+import { getGenerateUserMessage } from "./prompts";
 
-  console.log("Server action was run!")
-  console.log("Days: ", days);
-  console.log("Budget: ", budget);
-  console.log("From: ", from);
-  console.log("Details: ", details);
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
-  return ["Vancouver, Canada", "Paris, France", "Tokyo, Japan", "Sydney, Australia", "Cape Town, South Africa", "Rio de Janeiro, Brazil", "Reykjavik, Iceland", "Budapest, Hungary", "Marrakech, Morocco", "Mumbai, India", "Bangkok, Thailand", "Dubai, UAE", "New York City, USA", "Los Angeles, USA", "San Francisco, USA", "London, UK", "Barcelona, Spain", "Rome, Italy", "Athens, Greece", "Cairo, Egypt", "Cape Town, South Africa", "Nairobi, Kenya"];
+type City = {
+  name: string;
+  country: string;
+  description: string;
+  reasons: string[];
+};
+
+export type GenerateState = {
+  cities: City[];
+  days: number;
+  budget: number;
+  from: string;
+  details: string;
+}
+
+export const generateDestinations = async (_: GenerateState | null, formData: FormData) => {
+  const days = Number(formData.get("days"));
+  const budget = Number(formData.get("budget"));
+  const from = formData.get("from") as string;
+  const details = formData.get("details") as string;
+
+  const response = await openai.chat.completions.create({
+    model: "gpt-3.5-turbo",
+    messages: [
+      {
+        "role": "system",
+        "content": "You are a travel assistant."
+      },
+      {
+        "role": "user",
+        "content": getGenerateUserMessage(days, budget, from, details)
+      }
+    ],
+    response_format: { type: "json_object" }
+  });
+
+  if(!response?.choices?.[0]?.message?.content) {
+    return null;
+  }
+  const cities = JSON.parse(response.choices[0].message.content) as City[];
+
+  return {
+    cities,
+    days,
+    budget,
+    from,
+    details
+  };
 };
