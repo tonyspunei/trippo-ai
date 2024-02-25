@@ -2,13 +2,25 @@
 import Container from "@/components/Container";
 import CitiesPreviewGrid from "@/components/CitiesPreviewGrid";
 import { generateDestinations } from "@/lib/actions";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
+
+function SubmitButton () {
+  const { pending } = useFormStatus();
+
+  return (
+    <button 
+      disabled={pending}
+      className="bg-blue-600 text-white hover:bg-blue-500 rounded-xl px-4 py-2 mt-8 disabled:cursor-not-allowed disabled:opacity-50">
+        Submit
+    </button>
+  )
+}
 
 export default function Discover() {
   const [state, formAction] = useFormState(generateDestinations, null)
 
   return (
-    <div>
+    <div className="pb-16">
       <Container>
         <h1 className="text-4xl py-8 ">Discover Page</h1>
         <form action={formAction} className="border p-8 rounded-xl">
@@ -32,7 +44,7 @@ export default function Discover() {
             <textarea id="details" name="details" rows={4} placeholder="e.g. I want to go on a relaxing party trip with my best friends. Somewhere that has a great party scene and nightlife." required className="block mt-2 w-full ring-1 ring-inset ring-gray-300 rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm">
             </textarea>
           </div>
-          <button className="bg-blue-600 text-white hover:bg-blue-500 rounded-xl px-4 py-2 mt-8">Submit</button>
+          <SubmitButton />
         </form>
         {state ? 
           <div className="mt-8">
