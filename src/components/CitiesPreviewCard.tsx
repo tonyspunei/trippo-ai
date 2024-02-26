@@ -1,8 +1,12 @@
 import type { City } from "@/lib/actions";
+import { saveDestination } from "@/lib/actions";
 import { Check } from "lucide-react";
 import Image from "next/image";
 
-type Props = City;
+type Props = City & {
+  pending: boolean;
+  onClick: () => void;
+};
 
 export default function CitiesPreviewCard(props: Props) {
   return (
@@ -27,7 +31,14 @@ export default function CitiesPreviewCard(props: Props) {
           ))}
         </ul>
         <div className="mt-auto">
-          <button className="border px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white w-full font-semibold" type="button">Discover {props.name}</button>
+          <button 
+            onClick={props.onClick} 
+            className="border px-3 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white w-full font-semibold disabled:cursor-not-allowed disabled:opacity-50" 
+            disabled={props.pending}
+            type="button"
+          >
+              Discover {props.name}
+            </button>
         </div>
       </div>
     </div>

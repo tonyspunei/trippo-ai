@@ -2,6 +2,9 @@
 
 import OpenAI from "openai";
 import { getGenerateUserMessage } from "./prompts";
+import { db } from "./db";
+import { trips } from "./schema";
+import { nanoid } from "nanoid";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -76,3 +79,13 @@ async function fetchCityImage(query: string) {
   const json = await result.json();
   return json.photos[0].src.large as string;
 };
+
+export const saveDestination = async (city: string, country: string, descriptionShort: string, imageURL: string) => {
+  await db.insert(trips).values({
+    id: nanoid(14),
+    city,
+    country,
+    descriptionShort,
+    imageURL
+  })
+}
