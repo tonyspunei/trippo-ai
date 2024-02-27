@@ -13,7 +13,7 @@ export default function CitiesPreviewCard(props: Props) {
     <div className="max-w-sm h-[550px] border rounded-lg shadow-sm flex flex-col">
       {props.image ? 
         <div className="aspect-video relative overflow-hidden">
-          <Image src={props.image} alt={`a photo of ${props.name}`} fill />
+          <Image className="w-full h-full object-cover rounded-t-lg" src={props.image} alt={`a photo of ${props.name}`} fill />
         </div>
       : null}
       <div className="flex flex-col flex-grow p-6 pt-2">
