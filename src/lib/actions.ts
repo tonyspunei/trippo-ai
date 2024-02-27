@@ -5,6 +5,7 @@ import { getGenerateUserMessage } from "./prompts";
 import { db } from "./db";
 import { trips } from "./schema";
 import { nanoid } from "nanoid";
+import { revalidatePath } from "next/cache";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -87,5 +88,7 @@ export const saveDestination = async (city: string, country: string, description
     country,
     descriptionShort,
     imageURL
-  })
+  });
+
+  revalidatePath("/dashboard");
 }
