@@ -2,6 +2,8 @@ import Container from "@/components/Container";
 import Image from "next/image";
 import { db } from "@/lib/db";
 import { trips } from "@/lib/schema";
+import { Palmtree, Plus } from "lucide-react";
+import Link from "next/link";
 
 type Props = {
   id: string;
@@ -30,9 +32,26 @@ function TripCard(props: Props) {
     </div>
   );
 }
+function NoTrips() {
+  return (
+    <Container>
+      <div className="text-center border-2 p-16 mt-16 border-dashed">
+        <Palmtree className="mx-auto h-12 w-12 text-gray-400" strokeWidth={1} />
+        <h3 className="mt-2 text-sm font-semibold text-gray-900">No Trips</h3>
+        <p className="mt-1 text-sm text-gray-500">Get started by discovering a new destination</p>
+        <Link className="mt-6 inline-flex items-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500" href="/discover">
+          <Plus className="-ml-0.5 mr-1.5 h-5 w-5" />
+          Discover a New Trip
+        </Link>
+      </div>
+    </Container>
+  )
+}
 // React server server component
 export default async function Dashboard() {
   const allTrips = await db.select().from(trips);
+
+  if(allTrips.length < 1) return <NoTrips />;
 
   return (
     <div>
