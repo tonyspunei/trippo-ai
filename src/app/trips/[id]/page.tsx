@@ -4,7 +4,18 @@ import { eq } from "drizzle-orm";
 import TripDetail from "./TripDetail";
 import ItineraryList from "./ItineraryList";
 import type { Itinerary } from "./ItineraryList";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+
+export async function generateMetadata({ params }: {params: { id: string }}): Promise<Metadata> {
+  const trip = await db.select({
+    city: trips.city
+  }).from(trips).where(eq(trips.id, params.id));
+  const cityName = trip[0].city;
+  return {
+    title: `Your trip to ${cityName}`,
+  };
+}
 
 type Props = {
   params: { id: string }
