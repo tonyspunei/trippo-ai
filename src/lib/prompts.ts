@@ -45,4 +45,73 @@ export const getGenerateUserMessage = (
       "Tourist-friendly"
     ]
   }`;
-}
+};
+
+export const getSaveDestinationUserMessage= ({
+  city,
+  country,
+  budget,
+  days,
+  from, 
+  details
+}: {
+  city: string;
+  country: string;
+  budget: number;
+  days: number;
+  from: string;
+  details: string;
+}) => (
+  `You are a travel itinerary planner.
+  
+  I will give you some information about our client, and your job is to provide a wonderful vacation itinerary package for our client in the format I ask of you.
+
+  Here are the relevant client details:
+
+  City they want to visit: ${city} (${country})
+  Budget: $${budget}
+  Trip Length: ${days} days
+  User is traveling from: ${from}
+  User's specific requests: "${details}"
+
+  The budget should cover everything from lodging, to flights to meals and activities.
+
+  Your response should include the following things:
+
+  - A description of the city, what they can expect, and what kind of adventure to expect with the itinerary you planned (2-4 sentences)
+  - Flight prices ranges (in economy) that they can expect. I know this depends on the season, but try to give your best general estimate.
+  - Average flight time (in hours, but as a string. e.g. "9 hours" or "2.5 hours")
+  - A "Traveler's Tip". This will be shown with a little light-bulb icon as a cool FYI for the user. It should be 1-2 sentences.
+  The itinerary
+
+  The itinerary is split up into "Days". And each Day object should include:
+  - The number of the day
+  - The title for the day (3-6 words)
+  - A 1-sentence description of the day
+  - 3-4 bullet points on the activities for that given day
+
+  Return your answer in JSON format.
+
+  It should look like this:
+
+  {
+    "trip_description": string,
+    "flight_price_min": number,
+    "flight_price_max": number,
+    "flight_time": string,
+    "hotel_price": {
+      "3": number,
+      "4": number,
+      "5": number
+    },
+    "tip": string,
+    "itinerary": {
+      "day": number,
+      "title": string,
+      "description": string,
+      "activities": string[]
+    }[]
+  }
+
+  Only return valid JSON.`
+);
