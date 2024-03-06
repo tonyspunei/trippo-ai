@@ -7,6 +7,7 @@ import { trips } from "./schema";
 import { nanoid } from "nanoid";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { eq } from "drizzle-orm";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -171,4 +172,10 @@ export const saveDestination = async ({
 
   revalidatePath("/dashboard");
   redirect(`/trips/${id}`)
+}
+
+export const deleteTrip = async (id: string) => {
+  await db.delete(trips).where(eq(trips.id, id));
+  revalidatePath("/dashboard");
+  redirect("/dashboard");
 }
