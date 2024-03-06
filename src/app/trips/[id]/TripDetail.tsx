@@ -1,10 +1,16 @@
+"use client";
+
 import type { Trip } from "@/lib/schema";
 import Image from "next/image";
 import { Plane, Hotel, Lightbulb } from "lucide-react";
+import { useTransition } from "react";
+import { deleteTrip } from "@/lib/actions";
 
 type Props = Trip;
 
 export default function TripDetail(props: Props) {
+  const [pending, startTransition] = useTransition();
+
   return (
     <>
       <div className="text-center space-y-6">
@@ -41,6 +47,17 @@ export default function TripDetail(props: Props) {
         <Lightbulb />
         <p className="upercase text-sm font-bold">Travel&apos;s Tip:</p>
         <p className="text-center">{props.tip}</p>
+      </div>
+      <div className="flex justify-end mt-8">
+        <button 
+          onClick={() => startTransition(
+            async () => await deleteTrip(props.id)
+          )}
+          disabled={pending}
+          className="border px-3 py-2 rounded-xl text-sm text-white bg-red-500 font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Delete Trip
+          </button>
       </div>
     </>
   );
