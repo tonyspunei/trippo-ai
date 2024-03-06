@@ -157,7 +157,16 @@ export const saveDestination = async ({
     city,
     country,
     descriptionShort,
-    imageURL
+    imageURL,
+    descriptionLong: tripDetails.trip_description,
+    flightMin: tripDetails.flight_price_min,
+    flightMax: tripDetails.flight_price_max,
+    flightTime: tripDetails.flight_time,
+    hotel3: tripDetails.hotel_price["3"],
+    hotel4: tripDetails.hotel_price["4"],
+    hotel5: tripDetails.hotel_price["5"],
+    tip: tripDetails.tip,
+    itinerary: tripDetails.itinerary
   });
 
   revalidatePath("/dashboard");
