@@ -19,7 +19,15 @@ export default function CitiesPreviewGrid(props: Props) {
             pending={pending} 
             onClick={() => {
               startTransition(() => {
-                saveDestination(city.name, city.country, city.description, city.image || "")
+                saveDestination({
+                  city: city.name, 
+                  country: city.country, 
+                  descriptionShort: city.description, 
+                  imageURL: city.image || "",
+                  budget: props.budget,
+                  from: props.from,
+                  days: props.days,
+                })
               })
             }}
           />
