@@ -27,7 +27,7 @@ function TripCard(props: Props) {
           <p className="text-gray-600">{props.country}</p>
         </div>
         <p>{props.description}</p>
-        <button className="mt-8 bg-blue-950 text-white rounded-lg p-2 w-full text-center font-medium">View your trip</button>
+        <Link href={`/trips/${props.id}`} className="mt-8 bg-blue-950 text-white rounded-lg p-2 w-full text-center font-medium">View your trip</Link>
       </div>
     </div>
   );
