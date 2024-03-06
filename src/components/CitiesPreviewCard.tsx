@@ -1,5 +1,4 @@
 import type { City } from "@/lib/actions";
-import { saveDestination } from "@/lib/actions";
 import { Check } from "lucide-react";
 import Image from "next/image";
 
